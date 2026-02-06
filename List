@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nested List Example</title>
+</head>
+<body>
+
+    <h2>Subjects and Topics</h2>
+    <ol>
+        <li>Computer Science
+            <ul>
+                <li>Data Structures</li>
+                <li>Operating Systems</li>
+                <li>DBMS</li>
+            </ul>
+        </li>
+
+        <li>Mathematics
+            <ul>
+                <li>Algebra</li>
+                <li>Calculus</li>
+                <li>Statistics</li>
+            </ul>
+        </li>
+    </ol>
+
+</body>
+</html>
