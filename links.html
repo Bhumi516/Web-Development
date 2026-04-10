@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Links and Image Map</title>
+</head>
+<body>
+
+<h2>1. Text as a Link</h2>
+
+<a href="https://www.google.com" target="_blank">
+Visit Google
+</a>
+
+<br><br>
+
+
+<h2>2. Image as a Link</h2>
+
+<a href="https://www.google.com/imgres?q=images&imgurl=https%3A%2F%2Fstatic.vecteezy.com%2Fvite%2Fassets%2Fphoto-masthead-375-BoK_p8LG.webp&imgrefurl=https%3A%2F%2Fwww.vecteezy.com%2Ffree-photos&docid=ibTdn4unYxO9nM&tbnid=7F8_kUgVrrg0YM&vet=12ahUKEwjwjNiFvIqTAxUX8DQHHdn1A8wQnPAOegQIGBAB..i&w=750&h=864&hcb=2&ved=2ahUKEwjwjNiFvIqTAxUX8DQHHdn1A8wQnPAOegQIGBAB" target="_blank">
+    <img src="https://static.vecteezy.com/vite/assets/photo-masthead-375-BoK_p8LG.webp"
+         width="200"
+         height="200"
+         alt="Wikipedia Logo">
+</a>
+
+<br><br>
+
+
+<h2>3. Image Map</h2>
+
+<p>Click different parts of the image:</p>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Fronalpstock_big.jpg"
+     width="500"
+     height="300"
+     usemap="#mymap">
+
+<map name="mymap">
+
+    <area shape="rect"
+          coords="0,0,200,150"
+          href="https://www.google.com"
+          target="_blank"
+          alt="Google">
+
+    <area shape="circle"
+          coords="350,150,80"
+          href="https://www.wikipedia.org"
+          target="_blank"
+          alt="Wikipedia">
+
+</map>
+
+</body>
+</html>
