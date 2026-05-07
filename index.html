@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experiment Showcase 1-13</title>
+  <style>
+    :root {
+      --bg-a: #fff4e8;
+      --bg-b: #ffe9d4;
+      --bg-c: #f7fffb;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-2: rgba(255, 255, 255, 0.92);
+      --text: #202834;
+      --muted: #5f6b7a;
+      --border: rgba(32, 40, 52, 0.12);
+      --accent: #ff6f3c;
+      --accent-2: #0f9b8e;
+      --shadow: 0 18px 50px rgba(41, 52, 67, 0.14);
+    }
+
+    body[data-theme="dark"] {
+      --bg-a: #101d30;
+      --bg-b: #14263e;
+      --bg-c: #1a3342;
+      --surface: rgba(17, 29, 46, 0.72);
+      --surface-2: rgba(21, 35, 56, 0.9);
+      --text: #edf3f8;
+      --muted: #b4c0ce;
+      --border: rgba(237, 243, 248, 0.14);
+      --accent: #ff9e66;
+      --accent-2: #44d5c7;
+      --shadow: 0 22px 60px rgba(2, 5, 10, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Sora", "Avenir Next", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 18%, rgba(255, 111, 60, 0.26), transparent 34%),
+        radial-gradient(circle at 88% 8%, rgba(15, 155, 142, 0.26), transparent 35%),
+        linear-gradient(140deg, var(--bg-a) 0%, var(--bg-b) 38%, var(--bg-c) 100%);
+      padding: 28px 16px 40px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .shell {
+      width: min(1100px, 100%);
+    }
+
+    .panel {
+      background: linear-gradient(150deg, var(--surface), var(--surface-2));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .panel::before,
+    .panel::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(16px);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .panel::before {
+      width: 180px;
+      height: 180px;
+      right: -40px;
+      top: -52px;
+      background: rgba(255, 111, 60, 0.36);
+    }
+
+    .panel::after {
+      width: 170px;
+      height: 170px;
+      left: -44px;
+      bottom: -56px;
+      background: rgba(15, 155, 142, 0.32);
+    }
+
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .eyebrow {
+      margin: 0;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent-2);
+    }
+
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(1.8rem, 4vw, 2.9rem);
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      max-width: 70ch;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.55);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .theme-btn:hover {
+      transform: translateY(-1px);
+      border-color: color-mix(in srgb, var(--accent-2) 45%, white 55%);
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .search,
+    .filter {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 0.96rem;
+      background: rgba(255, 255, 255, 0.82);
+      color: #1d2733;
+    }
+
+    body[data-theme="dark"] .search,
+    body[data-theme="dark"] .filter,
+    body[data-theme="dark"] .theme-btn {
+      background: rgba(10, 18, 30, 0.78);
+      color: var(--text);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .chip strong {
+      color: var(--text);
+      margin-left: 5px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(255, 255, 255, 0.7);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      animation: reveal 0.45s ease both;
+    }
+
+    body[data-theme="dark"] .card,
+    body[data-theme="dark"] .chip {
+      background: rgba(18, 29, 46, 0.7);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(16, 29, 45, 0.18);
+      border-color: color-mix(in srgb, var(--accent) 50%, white 50%);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .exp-no {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 7px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.55);
+    }
+
+    .title {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.35;
+    }
+
+    .desc {
+      margin: 7px 0 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      min-height: 2.6em;
+    }
+
+    .path {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: "Consolas", "Courier New", monospace;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .cta {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.03em;
+    }
+
+    .empty {
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      padding: 15px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.45);
+      text-align: center;
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 740px) {
+      .panel {
+        padding: 18px;
+        border-radius: 20px;
+      }
+
+      .controls {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <main class="panel">
+      <section class="content">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Interactive Project Hub</p>
+            <h1>Experiments 1 to 13</h1>
+            <p class="subtitle">Browse every experiment from your web development practice. Use search and filter to find pages instantly, then open them with one click.</p>
+          </div>
+          <button id="themeBtn" class="theme-btn" type="button" aria-label="Toggle theme">Switch Theme</button>
+        </div>
+
+        <div class="controls">
+          <input id="searchInput" class="search" type="search" placeholder="Search by number, title, or keyword" />
+          <select id="typeFilter" class="filter" aria-label="Filter by type">
+            <option value="all">All types</option>
+            <option value="HTML">HTML</option>
+            <option value="Form">Form</option>
+            <option value="XML/XSL">XML/XSL</option>
+          </select>
+        </div>
+
+        <div class="chips" id="statsRow"></div>
+
+        <section id="cards" class="grid" aria-live="polite"></section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var experiments = [
+        { id: 1, title: "Basic HTML", file: "Basic.html", type: "HTML", desc: "Intro structure, headings, paragraphs, and core tags." },
+        { id: 2, title: "Experiment 2", file: "Experiment2.html", type: "HTML", desc: "Second HTML exercise from your lab sequence." },
+        { id: 3, title: "Experiment 3", file: "Experiment3.html", type: "HTML", desc: "Third experiment page with structured markup." },
+        { id: 4, title: "Experiment 4", file: "Experiment4.html", type: "HTML", desc: "Fourth web practice exercise and layout trial." },
+        { id: 5, title: "Experiment 5", file: "Experiment5.html", type: "HTML", desc: "Fifth experiment showcasing additional elements." },
+        { id: 6, title: "Experiment 6", file: "Experiment6.html", type: "HTML", desc: "Sixth experiment with practical HTML usage." },
+        { id: 7, title: "Experiment 7", file: "Experiment7.html", type: "HTML", desc: "Seventh exercise from your project collection." },
+        { id: 8, title: "Experiment 8", file: "Experiment8.html", type: "HTML", desc: "Eighth lab page with hands-on practice." },
+        { id: 9, title: "Experiment 9", file: "Experiment9.html", type: "Form", desc: "Employee registration form and input controls." },
+        { id: 10, title: "Experiment 10", file: "Experiment10/Basic.html", type: "HTML", desc: "Tenth experiment located in the Experiment10 folder." },
+        { id: 11, title: "Experiment 11", file: "Experiment11/index.html", type: "XML/XSL", desc: "XML experiment entry page with transformation files." },
+        { id: 12, title: "Experiment 12", file: "Experiment12/cdcatelog_output.html", type: "XML/XSL", desc: "CD catalog XML/XSL output rendering." },
+        { id: 13, title: "Experiment 13", file: "Experiment13/students_output.html", type: "XML/XSL", desc: "Students XML/XSL transformed result page." }
+      ];
+
+      var cardsRoot = document.getElementById("cards");
+      var searchInput = document.getElementById("searchInput");
+      var typeFilter = document.getElementById("typeFilter");
+      var statsRow = document.getElementById("statsRow");
+      var themeBtn = document.getElementById("themeBtn");
+
+      function renderStats(filteredCount) {
+        var html = "";
+        html += '<span class="chip">Total <strong>' + experiments.length + "</strong></span>";
+        html += '<span class="chip">Showing <strong>' + filteredCount + "</strong></span>";
+        html += '<span class="chip">Range <strong>1-13</strong></span>';
+        statsRow.innerHTML = html;
+      }
+
+      function makeCard(item, idx) {
+        var delay = Math.min(idx * 0.04, 0.45).toFixed(2);
+        return (
+          '<a class="card" href="' + item.file + '" style="animation-delay:' + delay + 's">' +
+            '<div class="card-head">' +
+              '<span class="exp-no">Experiment ' + item.id + '</span>' +
+              '<span class="tag">' + item.type + '</span>' +
+            '</div>' +
+            '<h2 class="title">' + item.title + '</h2>' +
+            '<p class="desc">' + item.desc + '</p>' +
+            '<span class="path">./' + item.file + '</span>' +
+            '<span class="cta">Open experiment -></span>' +
+          '</a>'
+        );
+      }
+
+      function renderCards() {
+        var query = searchInput.value.trim().toLowerCase();
+        var selectedType = typeFilter.value;
+
+        var filtered = experiments.filter(function (item) {
+          var matchesType = selectedType === "all" || item.type === selectedType;
+          var text = ("experiment " + item.id + " " + item.title + " " + item.file + " " + item.desc + " " + item.type).toLowerCase();
+          var matchesQuery = text.indexOf(query) !== -1;
+          return matchesType && matchesQuery;
+        });
+
+        if (!filtered.length) {
+          cardsRoot.innerHTML = '<div class="empty">No experiments matched your search. Try another keyword or change filter.</div>';
+          renderStats(0);
+          return;
+        }
+
+        cardsRoot.innerHTML = filtered.map(makeCard).join("");
+        renderStats(filtered.length);
+      }
+
+      function applyTheme(theme) {
+        document.body.setAttribute("data-theme", theme);
+        themeBtn.textContent = theme === "dark" ? "Use Light Theme" : "Use Dark Theme";
+      }
+
+      var themeKey = "experiment_hub_theme";
+      var savedTheme = localStorage.getItem(themeKey);
+      var currentTheme = savedTheme === "dark" ? "dark" : "light";
+      applyTheme(currentTheme);
+
+      themeBtn.addEventListener("click", function () {
+        currentTheme = document.body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        localStorage.setItem(themeKey, currentTheme);
+        applyTheme(currentTheme);
+      });
+
+      searchInput.addEventListener("input", renderCards);
+      typeFilter.addEventListener("change", renderCards);
+
+      renderCards();
+    })();
+  </script>
+</body>
+</html>

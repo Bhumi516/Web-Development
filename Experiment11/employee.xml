@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<employees>
+
+    <employee>
+        <id>101</id>
+        <name>Bhumi Bhadre</name>
+        <department>IT</department>
+        <salary>50000</salary>
+    </employee>
+
+    <employee>
+        <id>102</id>
+        <name>Rahul Patil</name>
+        <department>HR</department>
+        <salary>40000</salary>
+    </employee>
+
+    <employee>
+        <id>103</id>
+        <name>Sneha Joshi</name>
+        <department>Finance</department>
+        <salary>45000</salary>
+    </employee>
+
+    <employee>
+        <id>104</id>
+        <name>Amit Sharma</name>
+        <department>Marketing</department>
+        <salary>42000</salary>
+    </employee>
+
+    <employee>
+        <id>105</id>
+        <name>Pooja Mehta</name>
+        <department>IT</department>
+        <salary>55000</salary>
+    </employee>
+
+    <employee>
+        <id>106</id>
+        <name>Rohan Desai</name>
+        <department>Sales</department>
+        <salary>38000</salary>
+    </employee>
+
+    <employee>
+        <id>107</id>
+        <name>Neha Kulkarni</name>
+        <department>HR</department>
+        <salary>41000</salary>
+    </employee>
+
+    <employee>
+        <id>108</id>
+        <name>Karan Verma</name>
+        <department>IT</department>
+        <salary>60000</salary>
+    </employee>
+
+</employees>

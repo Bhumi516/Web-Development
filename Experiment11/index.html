@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            margin: 0;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 85%;
+            margin: auto;
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 10px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #e0e7ff;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🚀 Employee Dashboard</h1>
+
+<div class="container">
+
+    <div class="controls">
+        <button onclick="loadXML()">Load Data</button>
+
+        <input type="text" id="search" placeholder="Search by name">
+
+        <select id="filterDept">
+            <option value="">All Departments</option>
+            <option>IT</option>
+            <option>HR</option>
+            <option>Finance</option>
+            <option>Marketing</option>
+            <option>Sales</option>
+        </select>
+
+        <button onclick="sortSalary()">Sort Salary ↑</button>
+    </div>
+
+    <table id="table">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Salary</th>
+        </tr>
+    </table>
+
+</div>
+
+<script>
+let allEmployees = [];
+
+function loadXML() {
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let xmlDoc = this.responseXML;
+            let employees = xmlDoc.getElementsByTagName("employee");
+
+            allEmployees = [];
+
+            for (let i = 0; i < employees.length; i++) {
+                allEmployees.push({
+                    id: employees[i].getElementsByTagName("id")[0].childNodes[0].nodeValue,
+                    name: employees[i].getElementsByTagName("name")[0].childNodes[0].nodeValue,
+                    dept: employees[i].getElementsByTagName("department")[0].childNodes[0].nodeValue,
+                    salary: parseInt(employees[i].getElementsByTagName("salary")[0].childNodes[0].nodeValue)
+                });
+            }
+
+            display(allEmployees);
+        }
+    };
+
+    xhttp.open("GET", "employee.xml", true);
+    xhttp.send();
+}
+
+function display(data) {
+    let table = document.getElementById("table");
+
+    table.innerHTML = `
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Salary</th>
+    </tr>`;
+
+    data.forEach(emp => {
+        let row = table.insertRow();
+        row.insertCell(0).innerHTML = emp.id;
+        row.insertCell(1).innerHTML = emp.name;
+        row.insertCell(2).innerHTML = emp.dept;
+        row.insertCell(3).innerHTML = emp.salary;
+    });
+}
+
+// 🔍 Search
+document.getElementById("search").addEventListener("keyup", function() {
+    let value = this.value.toLowerCase();
+    let filtered = allEmployees.filter(emp =>
+        emp.name.toLowerCase().includes(value)
+    );
+    display(filtered);
+});
+
+// 🎯 Filter
+document.getElementById("filterDept").addEventListener("change", function() {
+    let dept = this.value;
+    let filtered = dept ? allEmployees.filter(emp => emp.dept === dept) : allEmployees;
+    display(filtered);
+});
+
+// 📊 Sort
+function sortSalary() {
+    let sorted = [...allEmployees].sort((a, b) => a.salary - b.salary);
+    display(sorted);
+}
+</script>
+
+</body>
+</html>
